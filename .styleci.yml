@@ -2,6 +2,8 @@ preset: psr1
 
 risky: false
 
+version: 8.1
+
 finder:
   exclude:
     - "tests"
