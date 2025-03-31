@@ -12,24 +12,15 @@ Base classes for service facades
 
 This package provides base classes for service facades implementations.
 
-The goal of the separation between these classes and the framework related ones is to make the facades portable across different frameworks.
+The goal of the separation between this package and the framework related ones is to make the facades portable across different frameworks.
 Once defined, a facade can be use without any change with various frameworks, provided that a package for this framework is available.
 
-The following frameworks are currently supported:
+The following packages are currently available:
 - Symfony: https://github.com/lagdo/symfony-facades
 
-## Classes
+## Provided classes
 
-The `Lagdo\Facades\ContainerWrapper` class gives access to the underlying container.
-It needs to be provided with a `PSR-11` container.
-
-```php
-use Lagdo\Facades\ContainerWrapper;
-
-ContainerWrapper::setContainer($container);
-```
-
-The `Lagdo\Facades\AbstractFacade` abstract class is the base class for all facades.
+The `Lagdo\Facades\AbstractFacade` abstract class is the base class for user defined service facades.
 
 ```php
 namespace App\Facades;
@@ -78,12 +69,22 @@ class MyFacade extends AbstractFacade
 }
 ```
 
-The service container will be called only once in this example code.
+The service container will be called only once in the above example.
 
 ```php
     MyFacade::myMethod1(); // Calls the service container
     MyFacade::myMethod2(); // Doesn't call the service container
     MyFacade::myMethod1(); // Doesn't call the service container
+```
+
+The `Lagdo\Facades\ContainerWrapper` class gives access to the underlying container. It needs to be provided with a `PSR-11` container.
+
+Unlike the previous, this class is meant for use only in the framework related packages, and not in the user applications.
+
+```php
+use Lagdo\Facades\ContainerWrapper;
+
+ContainerWrapper::setContainer($container);
 ```
 
 Contribute
