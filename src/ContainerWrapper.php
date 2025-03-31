@@ -11,7 +11,7 @@ final class ContainerWrapper
     /**
      * @var ContainerInterface
      */
-    private static $container = null;
+    private static ContainerInterface $container;
 
     /**
      * @param ContainerInterface $container
