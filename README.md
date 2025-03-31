@@ -17,8 +17,11 @@ Once defined, a facade can be use without any change with various frameworks, pr
 
 The following packages are currently available:
 - Symfony: https://github.com/lagdo/symfony-facades
+- Laravel (yes): https://github.com/lagdo/laravel-facades
+- CakePHP: https://github.com/lagdo/cake-facades
+- Yii: https://github.com/lagdo/yii-facades
 
-## Provided classes
+## Facades definitions
 
 The `Lagdo\Facades\AbstractFacade` abstract class is the base class for user defined service facades.
 
@@ -79,13 +82,14 @@ The service container will be called only once in the above example.
 
 The `Lagdo\Facades\ContainerWrapper` class gives access to the underlying container. It needs to be provided with a `PSR-11` container.
 
-Unlike the previous, this class is meant for use only in the framework related packages, and not in the user applications.
-
 ```php
 use Lagdo\Facades\ContainerWrapper;
 
 ContainerWrapper::setContainer($container);
 ```
+
+Unlike the previous, this class is meant for use in the framework related packages, and not in the user applications.
+Unless the framework in use provides a way to get an instance of `PSR-11` container interface that can be passed to the above call in its bootstrap process.
 
 Contribute
 ----------
