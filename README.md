@@ -13,7 +13,7 @@ Base classes for service facades
 This package provides base classes for service facades implementations.
 
 The goal of the separation between this package and the framework related ones is to make the facades portable across different frameworks.
-Once defined, a facade can be use without any change with various frameworks, provided that a package for this framework is available.
+A service facade can be use without any change with various frameworks, provided that a package for this framework is available, or a `PSR-11` container can be provided.
 
 The following packages are currently available:
 - Symfony: https://github.com/lagdo/symfony-facades
@@ -21,7 +21,7 @@ The following packages are currently available:
 - CakePHP: https://github.com/lagdo/cake-facades
 - Yii: https://github.com/lagdo/yii-facades
 
-## Facades definitions
+### Facades definition
 
 The `Lagdo\Facades\AbstractFacade` abstract class is the base class for user defined service facades.
 
@@ -72,6 +72,9 @@ class MyFacade extends AbstractFacade
 }
 ```
 
+> [!IMPORTANT]
+> The `Lagdo\Facades\ServiceInstance` trait *must* be used in each service facade class, and not in a parent class. The same instance will be shared by all the classes inheriting the same base class using the trait, and the service facades will ot work as expected.
+
 The service container will be called only once in the above example.
 
 ```php
@@ -80,16 +83,17 @@ The service container will be called only once in the above example.
     MyFacade::myMethod1(); // Doesn't call the service container
 ```
 
-The `Lagdo\Facades\ContainerWrapper` class gives access to the underlying container. It needs to be provided with a `PSR-11` container.
+### Container setup
+
+The `Lagdo\Facades\ContainerWrapper` class gives access to the underlying container.
+
+It needs to be provided with a `PSR-11` container, which will be done by the framework specific packages, but can also be done by the developer in case a package is not available.
 
 ```php
 use Lagdo\Facades\ContainerWrapper;
 
 ContainerWrapper::setContainer($container);
 ```
-
-Unlike the previous, this class is meant for use in the framework related packages, and not in the user applications.
-Unless the framework in use provides a way to get an instance of `PSR-11` container interface that can be passed to the above call in its bootstrap process.
 
 Contribute
 ----------
