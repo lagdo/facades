@@ -9,18 +9,22 @@ use Psr\Container\NotFoundExceptionInterface;
 final class ContainerWrapper
 {
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
-    private static ContainerInterface $container;
+    private static ContainerInterface|null $container = null;
 
     /**
      * @param ContainerInterface $container
+     * @param bool $overwrite
      *
      * @return void
      */
-    public static function setContainer(ContainerInterface $container): void
+    public static function setContainer(ContainerInterface $container, bool $overwrite = true): void
     {
-        self::$container = $container;
+        if($overwrite || self::$container === null)
+        {
+            self::$container = $container;
+        }
     }
 
     /**
