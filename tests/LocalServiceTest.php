@@ -19,7 +19,7 @@ class LocalServiceTest extends TestCase
     protected function setUp(): void
     {
         ContainerWrapper::registerLocalServices([
-            'logFileName' => __DIR__ . '/logs/test',
+            'filename' => __DIR__ . '/logs/test',
         ]);
     }
 

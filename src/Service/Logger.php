@@ -30,14 +30,14 @@ class Logger implements LoggerInterface
     use LoggerTrait;
 
     /**
-     * @param string $logFileName Log file path
-     * @param string $logFileExt  Log file extension
-     * @param int    $maxFileSize Log rotation size
+     * @param string $filename  Log file path
+     * @param string $extension Log file extension
+     * @param int    $maxSize   Log rotation size
      *
      * @return void
      */
-    public function __construct(private string $logFileName,
-        private string $logFileExt = '.log', private int $maxFileSize = 10 * 1024 * 1024)
+    public function __construct(private string $filename,
+        private string $extension = '.log', private int $maxSize = 10 * 1024 * 1024)
     {}
 
     /**
@@ -122,9 +122,9 @@ class Logger implements LoggerInterface
      *
      * @return string
      */
-    private function logFileName(): string
+    private function filename(): string
     {
-        return "{$this->logFileName}{$this->logFileExt}";
+        return "{$this->filename}{$this->extension}";
     }
 
     /**
@@ -134,10 +134,10 @@ class Logger implements LoggerInterface
      */
     private function rotateLogFile(): void
     {
-        $fileName = $this->logFileName();
-        if (file_exists($fileName) && filesize($fileName) > $this->maxFileSize) {
+        $fileName = $this->filename();
+        if (file_exists($fileName) && filesize($fileName) > $this->maxSize) {
             $time = time();
-            rename($fileName, "{$this->logFileName}.$time{$this->logFileExt}");
+            rename($fileName, "{$this->filename}.$time{$this->extension}");
         }
     }
 
@@ -154,7 +154,7 @@ class Logger implements LoggerInterface
         $timestamp = date('Y-m-d H:i:s');
         $logEntry = "[$timestamp] [$level] $message" . PHP_EOL;
 
-        file_put_contents($this->logFileName(), $logEntry, FILE_APPEND | LOCK_EX);
+        file_put_contents($this->filename(), $logEntry, FILE_APPEND | LOCK_EX);
     }
 
     /**
